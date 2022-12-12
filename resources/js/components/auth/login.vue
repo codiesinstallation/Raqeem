@@ -72,7 +72,7 @@
                                             class="h6 text--lighten-1 alert alert-danger"
                                         >
                                             <span class="mx-2">
-                                                {{ __("علاء مرسي") }}:</span
+                                                {{ __("Support To ") }}:</span
                                             >
                                             {{
                                                 $root.$data.codies
