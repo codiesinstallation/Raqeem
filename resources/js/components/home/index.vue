@@ -1958,9 +1958,6 @@ export default {
             }
             this.cart.push(cloneProduct);
 
-            if (this.mixins.active_type_offer) {
-                await this.checkIfTypeHasOffer(cloneProduct);
-            }
             await this.calcTotalTypeCost(cloneProduct);
         },
         async removeFromCart(product, index) {
@@ -2039,7 +2036,7 @@ export default {
             this.form.sum = 0;
             this.form.vat = 0;
             this.form.total = 0;
-            this.cart.filter((product) => {
+            this.cart.filter(async (product) => {
                 product.total_type_cost =
                     product.type_count * parseFloat(product.type_sill_price);
                 product.total_type_cost =
@@ -2048,6 +2045,9 @@ export default {
                 this.form.sum =
                     parseFloat(this.form.sum) +
                     parseFloat(product.total_type_cost);
+                if (this.mixins.active_type_offer) {
+                    await this.checkIfTypeHasOffer(product);
+                }
             });
 
             if (this.mixins.mixins_price_include_vat && this.mixins.fixed_vat) {
