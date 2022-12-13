@@ -10,17 +10,8 @@
                         <h6>رقيم</h6>
                     </div>
                     <div class="body text-center">
-                        @if ($res === 1)
-                            <div class="alert alert-success" role="alert">
-                                اخر أصدار
-                            </div>
-                        @else
-                            <div class="alert alert-warning" role="alert">
-                                هناك تحديث متاح
-                            </div>
-                            <a href="{{ route('updated') }}"> تحديث
-                            </a>
-                        @endif
+                        <a href="{{ route('updated') }}"> بحث عن تحديث
+                        </a>
 
                     </div>
 
