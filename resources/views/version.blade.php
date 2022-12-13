@@ -13,7 +13,7 @@
                         <h6>رقيم</h6>
                     </div>
                     <div class="body text-center">
-                        <a href="{{ route('updated') }}"> بحث عن تحديث
+                        <a class="btn btn-warning" href="{{ route('updated') }}"> بحث عن تحديث
                         </a>
 
                     </div>
