@@ -8,10 +8,9 @@
                 <div class="card text-center">
                     <div class="card-header">
                         <h6>رقيم</h6>
-
                     </div>
                     <div class="body text-center">
-                        @if (empty($res))
+                        @if ($res === 1)
                             <div class="alert alert-success" role="alert">
                                 اخر أصدار
                             </div>
