@@ -11,7 +11,7 @@
 
                     </div>
                     <div class="body text-center">
-                        @if (Str::startsWith($res, 'nothing to commit') || Str::startsWith($res, 'no changes added to commit'))
+                        @if ($res === '')
                             <div class="alert alert-success" role="alert">
                                 اخر أصدار
                             </div>
