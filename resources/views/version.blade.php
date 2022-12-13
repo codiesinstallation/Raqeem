@@ -7,7 +7,7 @@
 
                 <div class="card ">
                     <div class="card-header">
-                        <h6>{{ $res }}</h6>
+                        <h6>{{ $res }}!</h6>
 
                     </div>
                     <div class="body text-center">
