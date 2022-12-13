@@ -3,6 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
+            @if (isset($success))
+                <div class="alert-success">{{ $success }}</div>
+            @endif
             <div class="col-md-8">
 
                 <div class="card text-center">
@@ -10,7 +13,7 @@
                         <h6>رقيم</h6>
                     </div>
                     <div class="body text-center">
-                        <a class="btn btn-danger" href="{{ route('updated') }}"> بحث عن تحديث
+                        <a href="{{ route('updated') }}"> بحث عن تحديث
                         </a>
 
                     </div>
