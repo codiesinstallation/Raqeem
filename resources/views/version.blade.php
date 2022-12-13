@@ -11,7 +11,7 @@
 
                     </div>
                     <div class="body text-center">
-                        @if ($res === '')
+                        @if (empty($res))
                             <div class="alert alert-success" role="alert">
                                 اخر أصدار
                             </div>
