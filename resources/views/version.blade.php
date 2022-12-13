@@ -10,7 +10,7 @@
                         <h6>رقيم</h6>
                     </div>
                     <div class="body text-center">
-                        <a href="{{ route('updated') }}"> بحث عن تحديث
+                        <a class="btn btn-danger" href="{{ route('updated') }}"> بحث عن تحديث
                         </a>
 
                     </div>
