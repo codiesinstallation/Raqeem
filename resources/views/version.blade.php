@@ -7,7 +7,7 @@
 
                 <div class="card text-center">
                     <div class="card-header">
-                        <h6>2رقيم</h6>
+                        <h6>رقيم</h6>
                     </div>
                     <div class="body text-center">
                         @if ($res === 1)
