@@ -384,7 +384,7 @@
                                         <td>{{ searchType.type_name_ar }}</td>
 
                                         <td>
-                                            {{ searchType.type_sill_price }}
+                                            {{ searchType.sell_unit.price }}
                                         </td>
                                         <td>
                                             <i
@@ -879,7 +879,9 @@
                                                                     min="0"
                                                                     step="0.01"
                                                                     v-model="
-                                                                        product.type_sill_price
+                                                                        product
+                                                                            .sell_unit
+                                                                            .price
                                                                     "
                                                                     :readonly="
                                                                         !user.change_price ||
@@ -1111,7 +1113,7 @@
                                         <td>
                                             <input
                                                 v-model="
-                                                    product.type_sill_price
+                                                    product.sell_unit.price
                                                 "
                                                 :readonly="
                                                     !$root.$data.user
@@ -1679,7 +1681,7 @@ export default {
                         }
 
                         this.product.type_name_ar = product.type.type_name_ar;
-                        this.product.type_sill_price = product.type_price;
+                        this.product.sell_unit.price = product.type_price;
                         this.product.type_purchases_price =
                             product.type_purchases_price;
                         this.product.type_count = product.type_count;
@@ -1823,7 +1825,7 @@ export default {
                         if (type.main_type != null) {
                             if (product.type_count === type.main_type_count) {
                                 let offer = type.offer_type;
-                                offer.type_sill_price =
+                                offer.sell_unit.price =
                                     offer.sell_unit.price -
                                     (offer.sell_unit.price *
                                         type.offer_discount_percent) /
@@ -1966,7 +1968,7 @@ export default {
         async removeFromCart(product, index) {
             product.type_count = 1;
             product.total_type_cost =
-                product.type_count * parseFloat(product.type_sill_price);
+                product.type_count * parseFloat(product.sell_unit.price);
             this.$delete(this.cart, index);
             await this.calcSum();
         },
@@ -2011,8 +2013,8 @@ export default {
         },
 
         async onChangeTypeCost(product) {
-            if (product.type_sill_price < product.minimum_sill_price) {
-                product.type_sill_price = product.minimum_sill_price;
+            if (product.sell_unit.price < product.minimum_sill_price) {
+                product.sell_unit.price = product.minimum_sill_price;
             }
             await this.calcTotalTypeCost(product);
         },
@@ -2041,9 +2043,11 @@ export default {
             this.form.total = 0;
             this.cart.filter(async (product) => {
                 if (!product.has_Offer) {
+                    product.type_sill_price = product.sell_unit.price ?? 0.0;
+
                     product.total_type_cost =
                         product.type_count *
-                        parseFloat(product.type_sill_price);
+                        parseFloat(product.sell_unit.price);
                     product.total_type_cost =
                         product.total_type_cost - product.type_discount_value;
 
