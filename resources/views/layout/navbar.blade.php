@@ -177,21 +177,36 @@
             </a>
 
         </li>
-        @foreach (config('lang.available_languages') as $langLocale => $langName)
-            <li class="nav-item" onclick="changeLang('{{ $langLocale }}')">
+        <li class="nav-item dropdown top-dbdn">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               {{ App::getLocale() }}
 
-                <a class="nav-link" href="{{ url()->current() }}?lang={{ $langLocale }}">
-                    <p>{{ strtoupper($langLocale) }}
-
-                    </p>
-                </a>
-            </li>
-        @endforeach
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('update') }}" role="button">
-                مساع
             </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @foreach (config('lang.available_languages') as $langLocale => $langName)
+                    <a role="button" class="nav-link" href="{{ url()->current() }}?lang={{ $langLocale }}">
+                        <p>{{ strtoupper($langLocale) }}
+
+                        </p>
+                    </a>
+                @endforeach
+            </div>
         </li>
+        <li class="nav-item dropdown top-dbdn">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ trans(App::getLocale() . '.Help') }}
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="nav-link" href="{{ route('update') }}" role="button">
+                    تحديث
+                </a>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" id="full" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>

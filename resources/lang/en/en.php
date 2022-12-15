@@ -1,8 +1,12 @@
 <?php
 
 return [
-    'name' => 'الاسم',
-    'Manage Exit bill'=> 'bill processing',
+    'Help' => 'Help',
+
+
+    'name' => 'nameس',
+    'Manage Exit bill' => 'bill processing',
+
     "Total Returend" => "Total Returend",
     "BillSerial" => "Bill Serial",
     "Sales Type" => "Sales Type",
