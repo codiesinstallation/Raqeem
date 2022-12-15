@@ -180,7 +180,7 @@
         <li class="nav-item dropdown top-dbdn">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               {{ App::getLocale() }}
+                {{ App::getLocale() }}
 
             </a>
 
@@ -638,6 +638,7 @@
                         </a>
 
                     </li>
+
                     <li class="nav-item">
                         <a href="/attendance"
                             :class="$route.path === '/attendance' ?
@@ -662,7 +663,18 @@
                         </a>
 
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('typesToExcel') }}"
+                            :class="$route.path === '/typesToExcel' ?
+                                'nav-link  active' :
+                                'nav-link '">
+                            <i class="nav-icon fas fa-print"></i>
+                            <p>
+                                {{ trans(App::getLocale() . '.Print') }}
+                            </p>
+                        </a>
 
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
