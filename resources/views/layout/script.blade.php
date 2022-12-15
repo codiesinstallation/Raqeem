@@ -38,6 +38,7 @@
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
 <script src="{{ asset('js/event.js') }}"></script>
+<script src="{{ asset('js/tablesExcel.js') }}"></script>
 
 <script type="text/javascript">
     function changeLang(lang) {
