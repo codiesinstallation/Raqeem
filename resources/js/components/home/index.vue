@@ -1824,8 +1824,8 @@ export default {
                             if (product.type_count === type.main_type_count) {
                                 let offer = type.offer_type;
                                 offer.type_sill_price =
-                                    offer.type_sill_price -
-                                    (offer.type_sill_price *
+                                    offer.sell_unit.price -
+                                    (offer.sell_unit.price *
                                         type.offer_discount_percent) /
                                         100.0;
                                 offer.type_count = 1;
@@ -1929,7 +1929,6 @@ export default {
         },
 
         async addToCart(product) {
-            await this.checkStock(product);
             this.searchTerm = "";
             this.weight = 0.0;
             if (this.mixins.weight_barcode) {
@@ -1959,6 +1958,10 @@ export default {
             this.cart.push(cloneProduct);
 
             await this.calcTotalTypeCost(cloneProduct);
+            if (this.mixins.active_type_offer) {
+                await this.checkIfTypeHasOffer(cloneProduct);
+            }
+            await this.checkStock(product);
         },
         async removeFromCart(product, index) {
             product.type_count = 1;
@@ -2037,16 +2040,16 @@ export default {
             this.form.vat = 0;
             this.form.total = 0;
             this.cart.filter(async (product) => {
-                product.total_type_cost =
-                    product.type_count * parseFloat(product.type_sill_price);
-                product.total_type_cost =
-                    product.total_type_cost - product.type_discount_value;
+                if (!product.has_Offer) {
+                    product.total_type_cost =
+                        product.type_count *
+                        parseFloat(product.type_sill_price);
+                    product.total_type_cost =
+                        product.total_type_cost - product.type_discount_value;
 
-                this.form.sum =
-                    parseFloat(this.form.sum) +
-                    parseFloat(product.total_type_cost);
-                if (this.mixins.active_type_offer) {
-                    await this.checkIfTypeHasOffer(product);
+                    this.form.sum =
+                        parseFloat(this.form.sum) +
+                        parseFloat(product.total_type_cost);
                 }
             });
 

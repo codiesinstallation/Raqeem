@@ -95,16 +95,15 @@
                     <p>{{ trans(App::getLocale() . '.Purchase Bills  Report') }}</p>
                 </a>
 
+                @if ($codies->country === 2)
+                    <a href="/ProcessReport"
+                        :class="$route.path === '/ProcessReport' ?
+                            'dropdown-item  active' :
+                            'dropdown-item '">
 
-                <a href="/ProcessReport"
-                    :class="$route.path === '/ProcessReport' ?
-                        'dropdown-item  active' :
-                        'dropdown-item '">
-
-                    <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
-                </a>
-
-
+                        <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
+                    </a>
+                @endif
                 <a href="/customers/report"
                     :class="$route.path === '/customers/report' ?
                         'dropdown-item  active' :
@@ -190,7 +189,7 @@
         @endforeach
         <li class="nav-item">
             <a class="nav-link" href="{{ route('update') }}" role="button">
-                تحديث
+                مساع
             </a>
         </li>
         <li class="nav-item">
@@ -429,15 +428,17 @@
                                     <p>{{ trans(App::getLocale() . '.Purchase Bills  Report') }}</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="/ProcessReport"
-                                    :class="$route.path === '/ProcessReport' ?
-                                        'nav-link  active' :
-                                        'nav-link '">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
-                                </a>
-                            </li>
+                            @if ($codies->country === 2)
+                                <li class="nav-item">
+                                    <a href="/ProcessReport"
+                                        :class="$route.path === '/ProcessReport' ?
+                                            'nav-link  active' :
+                                            'nav-link '">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
+                                    </a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a href="/customers/report"
                                     :class="$route.path === '/customers/report' ?

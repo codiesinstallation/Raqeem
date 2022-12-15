@@ -53,27 +53,8 @@
                     </h5>
                 </router-link>
             </div>
-            <div
-                class="col-md-2 col-sm-4"
-                v-if="mixins.country === 1 && !mixins.codies_type"
-            >
-                <router-link
-                    class="card text-center p-1 w-100"
-                    style="text-decoration: none; text-align: center"
-                    to="/return"
-                >
-                    <img
-                        alt="Card image cap"
-                        class="card-img-top w-100"
-                        src="backend/img/menu/return.png"
-                    />
-                    <h5 class="text-center my-0 card-header">
-                        {{ __("Sales Return") }}
-                    </h5>
-                </router-link>
-            </div>
 
-            <div class="col-md-2 col-sm-4" >
+            <div class="col-md-2 col-sm-4">
                 <router-link
                     class="card text-center p-1 w-100"
                     style="text-decoration: none; text-align: center"
