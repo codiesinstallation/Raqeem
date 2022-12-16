@@ -6,7 +6,7 @@
         >
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <form
+                    <form @keydown.enter.prevent
                         @submit.prevent="create"
                         enctype="multipart/form-data"
                     >

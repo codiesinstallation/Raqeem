@@ -5,6 +5,8 @@
                 <div class="card shadow-sm mt-3">
                     <div class="card-body p-0">
                         <form
+                            @keydown.enter.prevent
+                            @submit.prevent="update"
                             class="types"
                             dir="rtl"
                             enctype="multipart/form-data"
@@ -15,12 +17,12 @@
                                 >
                                     تعديل بيانات الصنف
                                 </h6>
-                                <a
-                                    @click="update"
+                                <button
+                                    type="submit"
                                     class="btn btn-primary float-left"
                                 >
                                     حفظ
-                                </a>
+                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
@@ -739,7 +741,6 @@ export default {
                 Number(selected.deff_price);
         },
         update() {
-
             if (this.type.sell_unit == null) {
                 Notification.customMsg(
                     "error",

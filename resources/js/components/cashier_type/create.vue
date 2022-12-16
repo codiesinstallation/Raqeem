@@ -5,6 +5,8 @@
                 <div class="card shadow-sm mt-3">
                     <div class="card-body p-0">
                         <form
+                            @keydown.enter.prevent
+                            @submit.prevent="createType"
                             class="types"
                             dir="rtl"
                             enctype="multipart/form-data"
@@ -15,12 +17,12 @@
                                 >
                                     ادخال بيانات الصنف
                                 </h6>
-                                <a
-                                    @click="createType"
+                                <button
+                                    type="submit"
                                     class="btn btn-primary float-left"
                                 >
                                     حفظ
-                                </a>
+                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
@@ -275,7 +277,6 @@
                                                 وحدة البيع</span
                                             >
                                             <select
-                                                required
                                                 class="form-control"
                                                 id="selectUnit"
                                                 v-model="type.sell_unit"
@@ -410,6 +411,7 @@
                                                             "
                                                         />
                                                     </td>
+
                                                     <td
                                                         @click="
                                                             removeUnit(

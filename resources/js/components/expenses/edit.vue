@@ -4,6 +4,7 @@
             <div class="col-lg-6">
                 <div class="card mb-4">
                     <form
+                        @keydown.enter.prevent
                         dir="rtl"
                         enctype="multipart/form-data"
                         @submit.prevent="update"
@@ -11,7 +12,6 @@
                         <div
                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                         >
-
                             <h6 class="m-0 font-weight-bold text-primary">
                                 ادخال بيانات المصروف
                             </h6>
@@ -43,7 +43,8 @@
                                     aria-describedby="basic-addon1"
                                     class="form-control"
                                     v-model="form.expense_title"
-                                    type="text" required
+                                    type="text"
+                                    required
                                 />
                             </div>
                             <div class="input-group mb-3">
@@ -57,7 +58,8 @@
                                     class="form-control"
                                     v-model="form.expense_cost"
                                     min="0"
-                                    type="number" required
+                                    type="number"
+                                    required
                                 />
                             </div>
                             <div class="input-group mb-3">
@@ -70,7 +72,8 @@
                                     aria-describedby="basic-addon2"
                                     class="form-control"
                                     v-model="form.expense_date"
-                                    type="date" required
+                                    type="date"
+                                    required
                                 />
                             </div>
                             <div class="input-group mb-3">

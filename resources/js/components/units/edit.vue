@@ -7,7 +7,7 @@
             >
                 <div class="col-lg-12">
                     <div class="card mb-4">
-                        <form
+                        <form @keydown.enter.prevent
                             enctype="multipart/form-data"
                             @submit.prevent="update"
                         >

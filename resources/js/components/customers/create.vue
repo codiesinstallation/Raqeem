@@ -3,7 +3,7 @@
         <div v-if="user.create_customer" class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card mb-4">
-                    <form class="user" @submit.prevent="create">
+                    <form @keydown.enter.prevent class="user" @submit.prevent="create">
                         <div
                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                         >

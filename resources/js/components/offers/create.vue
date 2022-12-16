@@ -6,7 +6,7 @@
         >
             <div class="col-lg-6">
                 <div class="card mb-4">
-                    <form @submit.prevent="create">
+                    <form  @keydown.enter.prevent @submit.prevent="create">
                         <div
                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                         >

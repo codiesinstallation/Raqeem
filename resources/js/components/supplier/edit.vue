@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card mb-4">
-                    <form @submit.prevent="update">
+                    <form @keydown.enter.prevent @submit.prevent="update">
                         <div
                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                         >
