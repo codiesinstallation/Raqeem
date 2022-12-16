@@ -527,7 +527,6 @@ export default {
                 axios
                     .delete("/api/types/" + id)
                     .then((data) => {
-                        console.log(data);
                         if (data.data) {
                             this.types = this.types.filter((type) => {
                                 return type.type_id !== id;
