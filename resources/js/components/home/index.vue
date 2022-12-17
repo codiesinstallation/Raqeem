@@ -1868,7 +1868,7 @@ export default {
                     this.bill = data;
                     if (this.bill.bill_total > 0) {
                         this.bill.billTotal = new Tafgeet(
-                            this.bill.bill_total,
+                            parseFloat(this.bill.bill_total),
                             this.mixins.country === 1 ? "EGP" : "SAR"
                         ).parse();
                     }

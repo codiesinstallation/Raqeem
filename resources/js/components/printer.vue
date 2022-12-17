@@ -490,8 +490,8 @@
                             >
                                 كوديز للحلول البرمجية
                                 <i class="fa fa-phone"></i>
-                                01002208627 -
-                                <i class="fa fa-phone"></i> 01009199086 .
+                                +201002208627 -
+                                <i class="fa fa-phone"></i> +201009199086 .
                             </div>
                         </div>
                         <!--End Invoice-->
