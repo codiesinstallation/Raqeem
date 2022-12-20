@@ -7,11 +7,14 @@
                     <div
                         class="card-header hideMeInPrint d-flex flex-row align-items-center justify-content-between hideMeInPrint"
                     >
-
                         <h1 class="text-center my-0 btn-sm d-block">
                             الفواتير
                         </h1>
-
+                        <i
+                            class="fas fa-file-excel text-success"
+                            style="cursor: pointer"
+                            onclick="download('xlsx','bills');"
+                        ></i>
                         <h6
                             class="m-0 font-weight-bold text-primary float-left"
                         >
@@ -213,7 +216,8 @@
                                                     : ''
                                             "
                                         >
-                                           ({{ bill.vat }}) {{ bill.bill_vat_val }}
+                                            ({{ bill.vat }})
+                                            {{ bill.bill_vat_val }}
                                         </td>
                                         <td
                                             :class="
@@ -306,7 +310,9 @@
                                             }}
                                         </td>
 
-                                        <td :title="bill.bill_notes " style="max-width: 100px"
+                                        <td
+                                            :title="bill.bill_notes"
+                                            style="max-width: 100px"
                                             :class="
                                                 selected === bill.bill_no
                                                     ? 'selected'
@@ -451,7 +457,13 @@
                                 </td>
                                 <td class="col-1">{{ type.type_count }}</td>
                                 <td class="col-1">{{ type.type_price }}</td>
-                                <td class="col-1">{{ type.units?type.units.unit.unit_ar_name:'-' }}</td>
+                                <td class="col-1">
+                                    {{
+                                        type.units
+                                            ? type.units.unit.unit_ar_name
+                                            : "-"
+                                    }}
+                                </td>
                                 <td class="col-1">
                                     {{ type.type_total_price }}
                                 </td>
@@ -707,7 +719,6 @@
 </template>
 
 <script>
-
 import Printer from "../printer";
 import Spinner from "../spinner/mixinsSpinner";
 import Security from "../spinner/security";

@@ -1671,9 +1671,7 @@ export default {
                 await this.form.pendingBill.table_type.forEach(
                     async (product) => {
                         this.product = {};
-                        product.calc_count = 0;
-                        product.type_sill_price =
-                            product.sell_unit.price ?? 0.0;
+                        this.product.calc_count = 0;
                         if (product.type.type_stock !== null) {
                             if (product.type.type_stock.mixins_type_stock > 0) {
                                 var allNoUintBefore =

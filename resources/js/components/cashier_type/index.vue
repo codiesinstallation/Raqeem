@@ -11,6 +11,11 @@
                         <h6 class="m-0 font-weight-bold text-primary">
                             كل المنتجات
                         </h6>
+                         <i
+                            class="fas fa-file-excel text-success"
+                            style="cursor: pointer"
+                            @click="downloads('xlsx');"
+                        ></i>
                         <router-link
                             v-show="user.create_type"
                             class="m-0 font-weight-bold text-primary"
@@ -38,7 +43,7 @@
                     <div class="w-100 dragscroll table-wrapper">
                         <div id="pagewrap" class="row">
                             <div id="body" class="col-sm-12">
-                                <table
+                                <table ref="exportable_table"
                                     v-if="types.length > 0"
                                     id="types"
                                     class="text-center table-bordered"
@@ -464,6 +469,13 @@ export default {
         },
     },
     methods: {
+        downloads(type,fn,dl){
+            var elt=this.$refs.exportable_table;
+            var wb=XLSX.utils.table_to_book(elt,{sheet:"sheet js"});
+            return dl?
+            XLSX.write(wb,{bookType:type,bookSST:true,type:'base64'}):
+            XLSX.writeFile(wb,fn||('types.'+(type || 'xlsx')));
+        },
         async printBarcode(type) {
             let barcode = type.type_barcode;
             if (
