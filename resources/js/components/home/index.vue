@@ -889,7 +889,7 @@
                                                                     "
                                                                     class="btn w-100"
                                                                     @keyup="
-                                                                        calcSum()
+                                                                        onChangeTypeCost()
                                                                     "
                                                                 />
                                                             </td>
@@ -1692,6 +1692,7 @@ export default {
                             product.type_discount;
                         this.product.type_vat_percent = product.type_vat;
                         this.cart.push(this.product);
+                        this.calcTotalTypeCost(this.product);
                     }
                 );
             }
@@ -1825,6 +1826,7 @@ export default {
                         if (type.main_type != null) {
                             if (product.type_count === type.main_type_count) {
                                 let offer = type.offer_type;
+                                offer.sell_unit = type.offer_type.sell_unit;
                                 offer.sell_unit.price =
                                     offer.sell_unit.price -
                                     (offer.sell_unit.price *
@@ -1833,7 +1835,6 @@ export default {
                                 offer.type_count = 1;
                                 offer.has_Offer = true;
                                 this.cart.push(offer);
-
                                 this.calcTotalTypeCost(offer);
                             }
                             this.id = "";
@@ -1960,10 +1961,6 @@ export default {
             this.cart.push(cloneProduct);
 
             await this.calcTotalTypeCost(cloneProduct);
-            if (this.mixins.active_type_offer) {
-                await this.checkIfTypeHasOffer(cloneProduct);
-            }
-            await this.checkStock(product);
         },
         async removeFromCart(product, index) {
             product.type_count = 1;
@@ -1989,8 +1986,6 @@ export default {
             }
         },
         async increment(product) {
-            await this.checkStock(product);
-
             if (this.weight === 0) {
                 product.type_count++;
             } else {
@@ -2036,6 +2031,10 @@ export default {
             }
 
             await this.calcSum();
+            if (this.mixins.active_type_offer) {
+                await this.checkIfTypeHasOffer(product);
+            }
+            await this.checkStock(product);
         },
         async calcSum() {
             this.form.sum = 0;
