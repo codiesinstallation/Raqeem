@@ -1671,6 +1671,21 @@ export default {
                 await this.form.pendingBill.table_type.forEach(
                     async (product) => {
                         this.product = {};
+                        product.calc_count = 0;
+                        product.type_sill_price =
+                            product.sell_unit.price ?? 0.0;
+                        if (product.type.type_stock !== null) {
+                            if (product.type.type_stock.mixins_type_stock > 0) {
+                                var allNoUintBefore =
+                                    product.sell_unit.no_of_unit *
+                                    product.type.type_stock.mixins_type_stock;
+                                var totalNofUnitAfter =
+                                    allNoUintBefore - product.type_count;
+                                this.product.calc_count =
+                                    (allNoUintBefore - totalNofUnitAfter) /
+                                    product.sell_unit.no_of_unit;
+                            }
+                        }
                         this.product.type_stock = product.type.type_stock;
                         if (product.units != null) {
                             this.product.sell_unit = product.sell_unit;
