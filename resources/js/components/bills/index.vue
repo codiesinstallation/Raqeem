@@ -180,6 +180,12 @@
                                         >
                                             {{ __("Pay") }}
                                         </th>
+                                        <th
+                                            v-show="$root.$data.codies.country === 1"
+                                            style="width: 10%"
+                                        >
+                                            {{ __("Action") }}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -338,6 +344,25 @@
                                                 ></i>
                                             </a>
                                         </td>
+                                         <td
+                                            v-show="$root.$data.codies.country === 1"
+                                            :class="
+                                                selected === bill.bill_no
+                                                    ? 'hideMeInPrint selected'
+                                                    : 'hideMeInPrint'
+                                            "
+                                        >
+                                            <a
+                                                class="btn btn-sm btn-danger"
+                                                @click="
+                                                    deleteAction(bill.bill_no)
+                                                "
+                                            >
+                                                <i
+                                                    class="fa fa-trash text-danger"
+                                                ></i>
+                                            </a>
+                                        </td>
                                         <td v-show="user.pay_bill">
                                             <button
                                                 v-show="
@@ -351,6 +376,7 @@
                                                 {{ __("Pay") }}
                                             </button>
                                         </td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -880,6 +906,19 @@ export default {
         },
         showBillDetails(bill) {
             this.billTypes = bill;
+        },
+        deleteAction(id) {
+            axios
+                .delete("/api/cashier/bills/" + id)
+                .then(() => {
+                    this.bills = this.bills.filter((bill) => {
+                        return bill.bill_no != id;
+                    });
+                    Notification.successMsg("تم الحذف بنجاح");
+                })
+                .catch(() => {
+                    Notification.errorMsg("حدث خطأ ما");
+                });
         },
     },
 };

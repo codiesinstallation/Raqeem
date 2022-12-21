@@ -14,7 +14,7 @@
                 'nav-link '"
                 href="/home">
                 <p>
-                    {{ trans(App::getLocale() . '.Home') }}
+                    {{ trans('lang.Home') }}
 
                 </p>
             </a>
@@ -24,20 +24,20 @@
                 :class="$route.path === '/bill' ?
                     'nav-link  active' :
                     'nav-link '">
-                {{ trans(App::getLocale() . '.New Bill') }}</a>
+                {{ trans('lang.New Bill') }}</a>
         </li>
         <li class="nav-item">
             <a href="/process"
                 :class="$route.path === '/return' ?
                     'nav-link  active' :
                     'nav-link '">
-                <p>{{ trans(App::getLocale() . '.Manage Exit bill') }}</p>
+                <p>{{ trans('lang.Manage Exit bill') }}</p>
             </a>
         </li>
         <li class="nav-item dropdown top-dbdn">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ trans(App::getLocale() . '.Reports') }}
+                {{ trans('lang.Reports') }}
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -47,7 +47,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Today Report') }}</p>
+                    <p>{{ trans('lang.Today Report') }}</p>
                 </a>
 
 
@@ -56,7 +56,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Monthly Report') }}</p>
+                    <p>{{ trans('lang.Monthly Report') }}</p>
                 </a>
 
 
@@ -65,7 +65,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Period Report') }}</p>
+                    <p>{{ trans('lang.Period Report') }}</p>
                 </a>
 
 
@@ -74,7 +74,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Bills Report') }}</p>
+                    <p>{{ trans('lang.Bills Report') }}</p>
                 </a>
 
 
@@ -83,7 +83,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Types Report') }}</p>
+                    <p>{{ trans('lang.Types Report') }}</p>
                 </a>
 
 
@@ -92,7 +92,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Purchase Bills  Report') }}</p>
+                    <p>{{ trans('lang.Purchase Bills  Report') }}</p>
                 </a>
 
                 @if ($codies->country === 2)
@@ -101,7 +101,7 @@
                             'dropdown-item  active' :
                             'dropdown-item '">
 
-                        <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
+                        <p>{{ trans('lang.Process Bills Report') }}</p>
                     </a>
                 @endif
                 <a href="/customers/report"
@@ -109,7 +109,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Customers Report') }}</p>
+                    <p>{{ trans('lang.Customers Report') }}</p>
                 </a>
 
 
@@ -118,7 +118,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Search Report') }}</p>
+                    <p>{{ trans('lang.Search Report') }}</p>
                 </a>
 
 
@@ -127,7 +127,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.mixins_item_request') }}</p>
+                    <p>{{ trans('lang.mixins_item_request') }}</p>
                 </a>
 
 
@@ -136,7 +136,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Shift Report') }}</p>
+                    <p>{{ trans('lang.Shift Report') }}</p>
                 </a>
 
                 <a href="/attendance/report"
@@ -144,7 +144,7 @@
                         'dropdown-item  active' :
                         'dropdown-item '">
 
-                    <p>{{ trans(App::getLocale() . '.Attendance And Leave report') }}</p>
+                    <p>{{ trans('lang.Attendance And Leave report') }}</p>
                 </a>
 
 
@@ -157,7 +157,7 @@
                     'nav-link  active' :
                     'nav-link '">
                 <p>
-                    {{ trans(App::getLocale() . '.Attendance And Leave') }}
+                    {{ trans('lang.Attendance And Leave') }}
                 </p>
             </a>
 
@@ -197,7 +197,7 @@
         <li class="nav-item dropdown top-dbdn">
             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ trans(App::getLocale() . '.Help') }}
+                {{ trans('lang.Help') }}
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -279,7 +279,7 @@
                             href="/home">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Home') }}
+                                {{ trans('lang.Home') }}
 
                             </p>
                         </a>
@@ -291,7 +291,7 @@
                             href="/bill">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.New Bill') }}
+                                {{ trans('lang.New Bill') }}
 
                             </p>
                         </a>
@@ -304,7 +304,7 @@
                             href="/sales">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Sales Types') }}
+                                {{ trans('lang.Sales Types') }}
 
                             </p>
                         </a>
@@ -313,7 +313,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Bills') }}
+                                {{ trans('lang.Bills') }}
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -324,7 +324,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Bills') }}</p>
+                                    <p>{{ trans('lang.Bills') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -333,7 +333,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Manage Exit bill') }}</p>
+                                    <p>{{ trans('lang.Manage Exit bill') }}</p>
                                 </a>
                             </li>
 
@@ -343,7 +343,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-list-alt"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Types') }}
+                                {{ trans('lang.Types') }}
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -354,7 +354,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Categories') }}</p>
+                                    <p>{{ trans('lang.Categories') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -363,7 +363,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Units') }}</p>
+                                    <p>{{ trans('lang.Units') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -372,7 +372,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Types') }}</p>
+                                    <p>{{ trans('lang.Types') }}</p>
                                 </a>
                             </li>
 
@@ -383,7 +383,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-file"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Reports') }}
+                                {{ trans('lang.Reports') }}
                                 <i class="fas fa-angle-left right"></i>
 
                             </p>
@@ -395,7 +395,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Today Report') }}</p>
+                                    <p>{{ trans('lang.Today Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -404,7 +404,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Monthly Report') }}</p>
+                                    <p>{{ trans('lang.Monthly Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -413,7 +413,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Period Report') }}</p>
+                                    <p>{{ trans('lang.Period Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -422,7 +422,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Bills Report') }}</p>
+                                    <p>{{ trans('lang.Bills Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -431,7 +431,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Types Report') }}</p>
+                                    <p>{{ trans('lang.Types Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -440,7 +440,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Purchase Bills  Report') }}</p>
+                                    <p>{{ trans('lang.Purchase Bills  Report') }}</p>
                                 </a>
                             </li>
                             @if ($codies->country === 2)
@@ -450,7 +450,7 @@
                                             'nav-link  active' :
                                             'nav-link '">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ trans(App::getLocale() . '.Process Bills Report') }}</p>
+                                        <p>{{ trans('lang.Process Bills Report') }}</p>
                                     </a>
                                 </li>
                             @endif
@@ -460,7 +460,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Customers Report') }}</p>
+                                    <p>{{ trans('lang.Customers Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -469,7 +469,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Search Report') }}</p>
+                                    <p>{{ trans('lang.Search Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -478,7 +478,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.mixins_item_request') }}</p>
+                                    <p>{{ trans('lang.mixins_item_request') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -487,7 +487,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Shift Report') }}</p>
+                                    <p>{{ trans('lang.Shift Report') }}</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -496,7 +496,7 @@
                                         'nav-link  active' :
                                         'nav-link '">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>{{ trans(App::getLocale() . '.Attendance And Leave report') }}</p>
+                                    <p>{{ trans('lang.Attendance And Leave report') }}</p>
                                 </a>
                             </li>
 
@@ -510,7 +510,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-gift"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Offers') }}
+                                {{ trans('lang.Offers') }}
                             </p>
                         </a>
 
@@ -522,7 +522,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Purchase Bill') }}
+                                {{ trans('lang.Purchase Bill') }}
                             </p>
                         </a>
 
@@ -534,7 +534,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Purchase Bills') }}
+                                {{ trans('lang.Purchase Bills') }}
                             </p>
                         </a>
 
@@ -548,7 +548,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-money-check"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.shifts') }}
+                                {{ trans('lang.shifts') }}
                             </p>
                         </a>
 
@@ -560,7 +560,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-money-check"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Cash') }}
+                                {{ trans('lang.Cash') }}
                             </p>
                         </a>
 
@@ -572,11 +572,12 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-industry"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Suppliers') }}
+                                {{ trans('lang.Suppliers') }}
                             </p>
                         </a>
 
                     </li>
+
                     <li class="nav-item">
                         <a href="/expenses"
                             :class="$route.path === '/expenses' ?
@@ -584,7 +585,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Expenses') }}
+                                {{ trans('lang.Expenses') }}
                             </p>
                         </a>
 
@@ -596,7 +597,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Customers') }}
+                                {{ trans('lang.Customers') }}
                             </p>
                         </a>
 
@@ -608,7 +609,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Workers') }}
+                                {{ trans('lang.Workers') }}
                             </p>
                         </a>
 
@@ -620,7 +621,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Users') }}
+                                {{ trans('lang.Users') }}
                             </p>
                         </a>
 
@@ -633,7 +634,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-barcode"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Barcode Settings') }}
+                                {{ trans('lang.Barcode Settings') }}
                             </p>
                         </a>
 
@@ -646,7 +647,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-clock"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Attendance And Leave') }}
+                                {{ trans('lang.Attendance And Leave') }}
                             </p>
                         </a>
 
@@ -658,7 +659,7 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-cog"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Settings') }}
+                                {{ trans('lang.Settings') }}
                             </p>
                         </a>
 
@@ -670,7 +671,19 @@
                                 'nav-link '">
                             <i class="nav-icon fas fa-print"></i>
                             <p>
-                                {{ trans(App::getLocale() . '.Print') }}
+                                {{ trans('lang.Print') }}
+                            </p>
+                        </a>
+
+                    </li>
+                    <li class="nav-item bg-danger border-1">
+                        <a href="{{ route('trash') }}"
+                            :class="$route.path === '/trash' ?
+                                'nav-link  active ' :
+                                'nav-link '">
+                            <i class="nav-icon fas fa-trash "></i>
+                            <p>
+                                {{ trans('lang.Trash') }}
                             </p>
                         </a>
 
