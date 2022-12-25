@@ -39,6 +39,7 @@
         "moment": "^2.29.1",
         "noty": "^3.2.0-beta-deprecated",
         "path": "^0.12.7",
+        "pc-bootstrap4-datetimepicker": "^4.17.50",
         "print-js": "^1.6.0",
         "qz-tray": "^2.2.1",
         "tafgeetjs": "^2.1.0",
@@ -47,8 +48,8 @@
         "vue-quaggajs": "^1.0.12",
         "vue-resource": "^1.5.3",
         "vue-router": "^3.5.3",
+        "vuejs-datatable": "^2.0.0-alpha.7",
         "vuetify": "^2.6.1",
-        "webpack": "^5.74.0",
-        "pc-bootstrap4-datetimepicker": "^4.17.50"
+        "webpack": "^5.74.0"
     }
 }
