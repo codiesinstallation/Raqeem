@@ -3,35 +3,30 @@
         <div v-if="user.types" class="row">
             <!-- Datatables -->
             <div v-show="!loading" class="col-lg-12">
-                <div class="card mb-4">
+                <div class="card my-2">
                     <div
-                        class="card-header d-flex flex-row align-items-center justify-content-between"
+                        class="card-header bg-gradient-info text-light d-flex flex-row align-items-center justify-content-between"
                     >
                         <h6 class="m-0 font-weight-bold text-primary">
                             كل المنتجات
                         </h6>
-                        <label for="checkbox">{{ __("اختيار الكل") }}</label>
-                        <input
-                            id="checkbox"
-                            type="checkbox"
-                            v-model="selectAll"
-                        />
+                        <div class="form-group m-0">
+                            <label for="checkbox">{{
+                                __("اختيار الكل")
+                            }}</label>
+                            <input class="form-control-sm"
+                                id="checkbox"
+                                type="checkbox"
+                                v-model="selectAll"
+                            />
+                        </div>
                         <div v-if="selectAll">
                             <!-- You are currently selecting all -->
                             {{ __("تم اختيار ") }}
                             <strong>{{ checked.length }}</strong>
                             {{ __(" صنف.") }}
                         </div>
-                        <div v-if="checked.length > 0">
-                            {{ __("تم اختيار") }}
-                            <strong>{{ checked.length }}</strong>
-                            {{ __(" صنف. هل تريداختيار الكل") }}
-                            <strong>{{ rows.length }}</strong
-                            >?
-                            <a @click.prevent="selectAllRecords" href="#">{{
-                                __("اختيار الكل")
-                            }}</a>
-                        </div>
+
 
                         <div v-if="checked.length > 0">
                             <a
@@ -47,8 +42,20 @@
                         <i
                             class="fas fa-file-excel text-success"
                             style="cursor: pointer"
-                            @click="downloads('xlsx')"
+                            @click="downloads('xlsx', 'types-table')"
                         ></i>
+                        <div class="form-group m-0">
+                            <label for="per_page">عدد الصفوف</label>
+                            <select class="form-control-sm" id="per_page" v-model="per_page">
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="400">400</option>
+                                <option value="800">800</option>
+                                <option value="1600">1600</option>
+                            </select>
+                        </div>
                         <router-link
                             v-show="user.create_type"
                             class="font-weight-bold text-primary"
@@ -71,11 +78,11 @@
                             <div id="body" class="col-sm-12">
                                 <datatable
                                     class="types-table text-center"
-                                    id="types"
+                                    id="types-table"
                                     :filter="filter"
                                     :columns="columns"
-                                    :perPage="25"
-                                    :data="rows"
+                                    :perPage="per_page"
+                                    :data="types"
                                 >
                                     <template
                                         slot-scope="{
@@ -307,13 +314,12 @@ export default {
                 this.barcode = data;
             })
             .catch((error) => console.log(error));
-        $(".types-table").attr("ref", "exportable_table");
     },
     watch: {
         selectAll: function (value) {
             this.checked = [];
             if (value) {
-                this.rows.forEach((row) => {
+                this.types.forEach((row) => {
                     this.checked.push(row.type_id);
                 });
             } else {
@@ -358,13 +364,13 @@ export default {
                 { label: "الاجمالي بسعر الشراء", field: "" },
                 { label: "تاريخ الصلاحية", field: "" },
             ],
-            rows: [],
-            per_page: 10,
+            types: [],
+            per_page: 25,
         };
     },
     computed: {
         filterSearch() {
-            return this.rows.filter((type) => {
+            return this.types.filter((type) => {
                 return type.type_name_ar.match(this.searchTerm);
             });
         },
@@ -373,26 +379,21 @@ export default {
         allTypes() {
             axios.get("/item").then(
                 function (response) {
-                    this.rows = response.data;
+                    this.types = response.data;
                     this.loading = false;
                 }.bind(this)
             );
         },
-        downloads(type, fn, dl) {
-            var elt = this.$refs.exportable_table;
-            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet js" });
-            return dl
-                ? XLSX.write(wb, {
-                      bookType: type,
-                      bookSST: true,
-                      type: "base64",
-                  })
-                : XLSX.writeFile(wb, fn || "types." + (type || "xlsx"));
+        downloads(type, name) {
+            var wb = XLSX.utils.table_to_book(document.getElementById(name), {
+                sheet: "sheet js",
+            });
+            return XLSX.writeFile(wb, name + "." + type);
         },
         selectAllRecords() {
             axios.get("/api/cashier/types").then((response) => {
                 this.checked = response.data;
-                this.selectAll = true;
+                this.selectAll = !this.selectAll;
             });
         },
 
@@ -444,7 +445,7 @@ export default {
             axios
                 .get("/api/action/like/" + this.typeName)
                 .then(({ data }) => {
-                    this.rows = data;
+                    this.types = data;
                 })
                 .catch((error) => console.log(error));
         },
@@ -455,7 +456,7 @@ export default {
                     .delete("/api/types/" + id)
                     .then((data) => {
                         if (data.data) {
-                            this.rows = this.rows.filter((type) => {
+                            this.types = this.types.filter((type) => {
                                 return type.type_id !== id;
                             });
                             Notification.successMsg("تم الحذف بنجاح");

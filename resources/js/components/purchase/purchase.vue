@@ -404,7 +404,6 @@
                                         </td>
                                         <td>
                                             <select
-                                                v-if="product.sell_unit"
                                                 v-model="product.sell_unit"
                                                 class="form-control-sm"
                                                 @change="
@@ -775,12 +774,10 @@ export default {
         },
 
         async addToCart(product) {
-            if (this.cart.includes(product)) {
-                product.type_count++;
-            } else {
-                product.type_count = 1;
-                this.cart.push(product);
-            }
+            product.type_count = 1;
+            let cloneProduct = await JSON.parse(JSON.stringify(product));
+            this.cart.push(cloneProduct);
+
             await this.calcTotalTypeCost(product);
         },
         async removeFromCart(product, index) {
@@ -798,41 +795,26 @@ export default {
             product.type_count--;
             await this.calcTotalTypeCost(product);
         },
-        async findUnit(product) {
-            await axios
-                .get("/api/units/" + product.sell_unit)
-                .then(({ data }) => {
-                    this.typeUnit = data;
-                })
-                .catch((error) => console.log(error));
-        },
-        // async calcUnitPrice(product) {
-        //         product.type_sill_price =
-        //             product.sell_unit.price ?? 0.0;
-        //         if (product.type_stock !== null) {
-        //             if (product.type_stock.mixins_type_stock > 0) {
-        //                 var totalNofUnit =
-        //                     product.sell_unit.no_of_unit *
-        //                         product.type_stock.mixins_type_stock -
-        //                     product.type_count;
-        //                 product.calc_count =
-        //                     totalNofUnit / product.sell_unit.no_of_unit;
-        //             }
-        //     }
-        // },
+
         async calcUnitPrice(product) {
             product.type_price =
                 product.sell_unit.price ??
                 product.type_purchases_price / product.sell_unit.no_of_unit ??
                 product.type_purchases_price;
 
-            if (product.type_stock !== null) {
+            if (product.type_stock != null) {
+                console.log("type_stock");
                 var totalNofUnit =
                     product.sell_unit.no_of_unit *
                         product.type_stock.mixins_type_stock +
                     product.type_count;
                 product.calc_count =
                     totalNofUnit / product.sell_unit.no_of_unit;
+            } else {
+                console.log("no type_stock");
+
+                product.calc_count =
+                    product.type_count / product.sell_unit.no_of_unit;
             }
 
             if (
