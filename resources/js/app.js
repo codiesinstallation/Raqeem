@@ -6,6 +6,9 @@ import VueRouter from "vue-router";
 import VueHtmlToPaper from "vue-html-to-paper";
 import sidebar from "./components/layout/sidebar.vue";
 import topbar from "./components/layout/topbar.vue";
+import { VuejsDatatableFactory } from 'vuejs-datatable';
+
+Vue.use(VuejsDatatableFactory);
 
 import { routes } from "./routes";
 //Multi lang

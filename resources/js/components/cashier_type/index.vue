@@ -7,156 +7,94 @@
                     <div
                         class="card-header d-flex flex-row align-items-center justify-content-between"
                     >
-
                         <h6 class="m-0 font-weight-bold text-primary">
                             كل المنتجات
                         </h6>
-                         <i
+                        <label for="checkbox">{{ __("اختيار الكل") }}</label>
+                        <input
+                            id="checkbox"
+                            type="checkbox"
+                            v-model="selectAll"
+                        />
+                        <div v-if="selectAll">
+                            <!-- You are currently selecting all -->
+                            {{ __("تم اختيار ") }}
+                            <strong>{{ checked.length }}</strong>
+                            {{ __(" صنف.") }}
+                        </div>
+                        <div v-if="checked.length > 0">
+                            {{ __("تم اختيار") }}
+                            <strong>{{ checked.length }}</strong>
+                            {{ __(" صنف. هل تريداختيار الكل") }}
+                            <strong>{{ rows.length }}</strong
+                            >?
+                            <a @click.prevent="selectAllRecords" href="#">{{
+                                __("اختيار الكل")
+                            }}</a>
+                        </div>
+
+                        <div v-if="checked.length > 0">
+                            <a
+                                class="btn btn-danger"
+                                href="#"
+                                onclick="confirm('Are you sure you wanna delete this Record?') || event.stopImmediatePropagation()"
+                                type="button"
+                                @click.prevent="deleteRecords"
+                            >
+                                {{ __("حذف المحدد") }}
+                            </a>
+                        </div>
+                        <i
                             class="fas fa-file-excel text-success"
                             style="cursor: pointer"
-                            @click="downloads('xlsx');"
+                            @click="downloads('xlsx')"
                         ></i>
                         <router-link
                             v-show="user.create_type"
-                            class="m-0 font-weight-bold text-primary"
+                            class="font-weight-bold text-primary"
                             to="/create"
                             >إضافة
                         </router-link>
 
-
-
-                        <div
-                            class="m-0 font-weight-bold text-primary float-left"
-                        >
-                            <div id="search">
-                                <input
-                                    id="filter"
-                                    v-model="typeName"
-                                    @keyup="findTypeByLike"
-                                    class="form-control-sm"
-                                    name="filter"
-                                    type="text"
-                                />
-                            </div>
+                        <div class="form-group m-0">
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="filter"
+                                :placeholder="__('Search')"
+                                @keydown="$event.stopImmediatePropagation()"
+                            />
                         </div>
                     </div>
                     <div class="w-100 dragscroll table-wrapper">
                         <div id="pagewrap" class="row">
                             <div id="body" class="col-sm-12">
-                                <table ref="exportable_table"
-                                    v-if="types.length > 0"
+                                <datatable
+                                    class="types-table text-center"
                                     id="types"
-                                    class="text-center table-bordered"
+                                    :filter="filter"
+                                    :columns="columns"
+                                    :perPage="25"
+                                    :data="rows"
                                 >
-                                    <thead>
+                                    <template
+                                        slot-scope="{
+                                            row,
+                                            columns,
+                                            pagination,
+                                        }"
+                                    >
                                         <tr>
-                                            <th
-                                                v-show="
-                                                    user.edit_type ||
-                                                    user.delete_type
-                                                "
-                                                class="col-header"
-                                                style="width: 15%"
-                                            >
-                                                إعدادات
-                                            </th>
-
-                                            <th
-                                                class="col-header"
-                                                style="width: 15%"
-                                            >
-                                                كود
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 15%"
-                                            >
-                                                باركود الصنف
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 25%"
-                                            >
-                                                اسم الصنف عربي
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 20%"
-                                            >
-                                                اسم الصنف انجليزي
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                صورة الصنف
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                سعر الشراء
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 20%"
-                                            >
-                                                سعر البيع
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                أقل سعر البيع
-                                            </th>
-
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                قيمة الخصم
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                المخزون
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                الاجمالي بسعر البيع
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                الاجمالي بسعر الشراء
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                المخزون
-                                            </th>
-                                            <th
-                                                class="col-header"
-                                                style="width: 10%"
-                                            >
-                                                تاريخ الصلاحية
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr
-                                            v-for="(type, index) in types"
-                                            :key="index"
-                                            class="ErrorRow"
-                                        >
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    :value="row.type_id"
+                                                    v-model="checked"
+                                                />
+                                            </td>
                                             <td v-if="!isNewbill">
                                                 <button
-                                                    @click="printBarcode(type)"
+                                                    @click="printBarcode(row)"
                                                 >
                                                     <i
                                                         class="fa fa-barcode"
@@ -167,7 +105,7 @@
                                                     :to="{
                                                         name: 'edit',
                                                         params: {
-                                                            id: type.type_id,
+                                                            id: row.type_id,
                                                         },
                                                     }"
                                                     class="btn btn-sm btn-primary"
@@ -177,7 +115,7 @@
                                                     v-show="user.delete_type"
                                                     class="btn btn-sm btn-danger"
                                                     @click="
-                                                        deleteType(type.type_id)
+                                                        deleteType(row.type_id)
                                                     "
                                                     ><i class="fa fa-trash"></i
                                                 ></a>
@@ -186,31 +124,31 @@
                                                 <button
                                                     type="button"
                                                     class="btn btn-sm btn-primary"
-                                                    @click="addToCart(type)"
+                                                    @click="addToCart(row)"
                                                 >
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </td>
                                             <td class="sorting_1">
-                                                {{ type.type_id }}
+                                                {{ row.type_id }}
                                             </td>
                                             <td class="">
-                                                {{ type.type_barcode }}
+                                                {{ row.type_barcode }}
                                             </td>
                                             <td class="" style="overflow: auto">
-                                                {{ type.type_name_ar }}
+                                                {{ row.type_name_ar }}
                                             </td>
-                                            <td>{{ type.type_name_en }}</td>
+                                            <td>{{ row.type_name_en }}</td>
                                             <td class="">
                                                 <!-- Button trigger modal -->
                                                 <button
                                                     v-show="
-                                                        type.type_icon !== '' ||
-                                                        type.type_icon != null
+                                                        row.type_icon !== '' ||
+                                                        row.type_icon != null
                                                     "
                                                     :data-target="
                                                         '#exampleModalCenter-' +
-                                                        type.type_id
+                                                        row.type_id
                                                     "
                                                     class="btn btn-sm btn-primary"
                                                     data-toggle="modal"
@@ -221,7 +159,7 @@
                                                 <div
                                                     :id="
                                                         'exampleModalCenter-' +
-                                                        type.type_id
+                                                        row.type_id
                                                     "
                                                     aria-hidden="true"
                                                     aria-labelledby="exampleModalCenterTitle"
@@ -245,7 +183,7 @@
                                                             >
                                                                 <img
                                                                     :src="
-                                                                        type.type_icon
+                                                                        row.type_icon
                                                                     "
                                                                     style="
                                                                         width: 100%;
@@ -269,132 +207,57 @@
                                                 </div>
                                             </td>
                                             <td class="">
-                                                {{ type.type_purchases_price }}
+                                                {{ row.type_purchases_price }}
                                             </td>
                                             <td class="">
-                                                {{ type.type_sill_price }}
+                                                {{ row.type_sill_price }}
                                             </td>
                                             <td class="">
-                                                {{ type.minimum_sill_price }}
+                                                {{ row.minimum_sill_price }}
                                             </td>
 
                                             <td class="">
-                                                {{ type.type_discount_value }}
+                                                {{ row.type_discount_value }}
                                             </td>
                                             <td>
                                                 {{
-                                                    type.type_stock
-                                                        ? type.type_stock
+                                                    row.type_stock
+                                                        ? row.type_stock
                                                               .mixins_type_stock
                                                         : 0
                                                 }}
                                             </td>
                                             <td>
                                                 {{
-                                                    type.type_stock
-                                                        ? type.type_stock
+                                                    row.type_stock
+                                                        ? row.type_stock
                                                               .mixins_type_stock *
-                                                          type.type_sill_price
+                                                          row.type_sill_price
                                                         : 0
                                                 }}
                                             </td>
                                             <td>
                                                 {{
-                                                    type.type_stock
-                                                        ? type.type_stock
+                                                    row.type_stock
+                                                        ? row.type_stock
                                                               .mixins_type_stock *
-                                                          type.type_purchases_price
+                                                          row.type_purchases_price
                                                         : 0
                                                 }}
                                             </td>
-                                            <td>{{ type.type_exp_date }}</td>
+                                            <td>{{ row.type_exp_date }}</td>
                                         </tr>
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
-                                <p v-else class="text-center">
-                                    {{ __("No Data Yet") }}
-                                </p>
-                                <div
-                                    v-show="types.length > 0"
-                                    class="row text-center"
-                                >
-                                    <ul
-                                        class="pagination justify-content-center"
-                                    >
-                                        <li
-                                            :class="
-                                                page === 1
-                                                    ? 'page-item disabled'
-                                                    : 'page-item'
-                                            "
-                                        >
-                                            <a
-                                                class="page-link"
-                                                href="#"
-                                                @click="nextPage(1)"
-                                                >البداية</a
-                                            >
-                                        </li>
-                                        <li
-                                            :class="
-                                                page === 1
-                                                    ? 'page-item disabled'
-                                                    : 'page-item'
-                                            "
-                                        >
-                                            <a
-                                                class="page-link"
-                                                href="#"
-                                                @click="
-                                                    nextPage(current_page - 1)
-                                                "
-                                                ><i
-                                                    class="fa fa-arrow-right"
-                                                ></i
-                                            ></a>
-                                        </li>
-                                        <li
-                                            class="page-item d-none"
-                                            v-for="(i, index) in total"
-                                            @click="nextPage(i)"
-                                        >
-                                            <a class="page-link" href="#">{{
-                                                i
-                                            }}</a>
-                                        </li>
-                                        <li
-                                            :class="
-                                                page === last_page
-                                                    ? 'page-item disabled'
-                                                    : 'page-item'
-                                            "
-                                        >
-                                            <a
-                                                class="page-link"
-                                                href="#"
-                                                @click="
-                                                    nextPage(current_page + 1)
-                                                "
-                                                ><i class="fa fa-arrow-left"></i
-                                            ></a>
-                                        </li>
-                                        <li
-                                            :class="
-                                                page === last_page
-                                                    ? 'page-item disabled'
-                                                    : 'page-item'
-                                            "
-                                        >
-                                            <a
-                                                class="page-link"
-                                                href="#"
-                                                @click="nextPage(total + 1)"
-                                                >الاخير</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
+                                    </template>
+                                    <template name="no-result">
+                                        Nothing to see here
+                                    </template>
+                                </datatable>
+                                <datatable-pager
+                                    class="pagination justify-content-center"
+                                    v-model="page"
+                                    type="abbreviated"
+                                    :per-page="per_page"
+                                ></datatable-pager>
                             </div>
                         </div>
                     </div>
@@ -444,11 +307,30 @@ export default {
                 this.barcode = data;
             })
             .catch((error) => console.log(error));
+        $(".types-table").attr("ref", "exportable_table");
+    },
+    watch: {
+        selectAll: function (value) {
+            this.checked = [];
+            if (value) {
+                this.rows.forEach((row) => {
+                    this.checked.push(row.type_id);
+                });
+            } else {
+                this.checked = [];
+                this.selectAll = false;
+            }
+        },
     },
     data() {
         return {
             title: "Types",
             user: {},
+            filter: "",
+            sections: {},
+            checked: [],
+            selectPage: false,
+            selectAll: false,
 
             types: [],
             searchTerm: "",
@@ -459,22 +341,73 @@ export default {
             last_page: "",
             typeName: "",
             barcode: {},
+            columns: [
+                { label: "تحديد", field: "type_id" },
+                { label: "اعدادات", field: "type_id" },
+                { label: "كود", field: "type_id" },
+                { label: "باركود الصنف", field: "type_barcode" },
+                { label: "اسم الصنف عربي", field: "type_name_ar" },
+                { label: "سم الصنف انجليزي", field: "type_name_en" },
+                { label: "صورة الصنف", field: "type_icon" },
+                { label: "سعر الشراء", field: "" },
+                { label: "سعر البيع", field: "" },
+                { label: "أقل سعر البيع", field: "" },
+                { label: "قيمة الخصم", field: "" },
+                { label: "المخزون", field: "" },
+                { label: "الاجمالي بسعر البيع", field: "" },
+                { label: "الاجمالي بسعر الشراء", field: "" },
+                { label: "تاريخ الصلاحية", field: "" },
+            ],
+            rows: [],
+            per_page: 10,
         };
     },
     computed: {
         filterSearch() {
-            return this.types.filter((type) => {
+            return this.rows.filter((type) => {
                 return type.type_name_ar.match(this.searchTerm);
             });
         },
     },
     methods: {
-        downloads(type,fn,dl){
-            var elt=this.$refs.exportable_table;
-            var wb=XLSX.utils.table_to_book(elt,{sheet:"sheet js"});
-            return dl?
-            XLSX.write(wb,{bookType:type,bookSST:true,type:'base64'}):
-            XLSX.writeFile(wb,fn||('types.'+(type || 'xlsx')));
+        allTypes() {
+            axios.get("/item").then(
+                function (response) {
+                    this.rows = response.data;
+                    this.loading = false;
+                }.bind(this)
+            );
+        },
+        downloads(type, fn, dl) {
+            var elt = this.$refs.exportable_table;
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet js" });
+            return dl
+                ? XLSX.write(wb, {
+                      bookType: type,
+                      bookSST: true,
+                      type: "base64",
+                  })
+                : XLSX.writeFile(wb, fn || "types." + (type || "xlsx"));
+        },
+        selectAllRecords() {
+            axios.get("/api/cashier/types").then((response) => {
+                this.checked = response.data;
+                this.selectAll = true;
+            });
+        },
+
+        deleteRecords() {
+            axios
+                .delete("/api/types/massDestroy/" + this.checked)
+                .then((response) => {
+                    if (response.status == 204) {
+                        this.checked = [];
+                        this.allTypes();
+                    }
+                });
+        },
+        isChecked(type_id) {
+            return this.checked.includes(type_id);
         },
         async printBarcode(type) {
             let barcode = type.type_barcode;
@@ -511,36 +444,18 @@ export default {
             axios
                 .get("/api/action/like/" + this.typeName)
                 .then(({ data }) => {
-                    this.types = data;
-                })
-                .catch((error) => console.log(error));
-        },
-        allTypes() {
-            axios
-                .get("/api/cashier/types?page=" + this.page)
-                .then(({ data }) => {
-                    if (data.data.length >= 0) {
-                        this.loading = false;
-                        this.total = parseInt(data.total / data.per_page);
-                        this.types = data.data;
-                        this.current_page = data.current_page;
-                        this.last_page = data.last_page;
-                    }
+                    this.rows = data;
                 })
                 .catch((error) => console.log(error));
         },
 
-        nextPage(i) {
-            this.page = i;
-            this.allTypes();
-        },
         deleteType(id) {
             if (confirm("هل تريد الحذف؟لايمكن الاستعاده مره اخرى.")) {
                 axios
                     .delete("/api/types/" + id)
                     .then((data) => {
                         if (data.data) {
-                            this.types = this.types.filter((type) => {
+                            this.rows = this.rows.filter((type) => {
                                 return type.type_id !== id;
                             });
                             Notification.successMsg("تم الحذف بنجاح");
@@ -559,19 +474,18 @@ export default {
 };
 </script>
 <style>
-a,
-a:hover {
-    text-decoration: none;
-    font-weight: bolder;
+.pagination ul {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
 }
-
-table.table-fit thead th,
-table.table-fit tfoot th {
-    width: auto !important;
-}
-
-table.table-fit tbody td,
-table.table-fit tfoot td {
-    width: auto !important;
+.pagination.justify-content-center li {
+    margin: 3px;
+    float: left;
+    list-style: none;
+    border: 1px solid #ddd;
+    padding: 5px 15px;
+    margin: 0;
 }
 </style>
