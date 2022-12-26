@@ -802,20 +802,8 @@ export default {
                 product.type_purchases_price / product.sell_unit.no_of_unit ??
                 product.type_purchases_price;
 
-            if (product.type_stock != null) {
-                console.log("type_stock");
-                var totalNofUnit =
-                    product.sell_unit.no_of_unit *
-                        product.type_stock.mixins_type_stock +
-                    product.type_count;
-                product.calc_count =
-                    totalNofUnit / product.sell_unit.no_of_unit;
-            } else {
-                console.log("no type_stock");
-
-                product.calc_count =
-                    product.type_count / product.sell_unit.no_of_unit;
-            }
+            product.calc_count =
+                product.type_count / product.sell_unit.no_of_unit;
 
             if (
                 product.type_price === "NaN" ||

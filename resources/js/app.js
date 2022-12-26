@@ -8,7 +8,6 @@ import sidebar from "./components/layout/sidebar.vue";
 import topbar from "./components/layout/topbar.vue";
 import { VuejsDatatableFactory } from 'vuejs-datatable';
 
-Vue.use(VuejsDatatableFactory);
 
 import { routes } from "./routes";
 //Multi lang
@@ -25,6 +24,27 @@ import VueQuagga from "vue-quaggajs";
 // register component 'v-quagga'
 Vue.use(VueQuagga);
 
+VuejsDatatableFactory.useDefaultType(false)
+    .registerTableType('datatable', tableType => tableType.mergeSettings({
+        table: {
+            sorting: {
+                sortAsc: '<i class="fas fa-sort-amount-up" title="Sort ascending"></i>',
+                sortDesc: '<i class="fas fa-sort-amount-down" title="Sort descending"></i>',
+                sortNone: '<i class="fas fa-sort" title="Sort"></i>',
+            },
+        },
+        pager: {
+            classes: {
+                pager: 'pagination text-center',
+                selected: 'active',
+            },
+            icons: {
+                next: '<i class="fas fa-chevron-right" title="Next page"></i>',
+                previous: '<i class="fas fa-chevron-left" title="Previous page"></i>',
+            },
+        },
+    }));
+Vue.use(VuejsDatatableFactory);
 Vue.use(VueRouter);
 let bootstrap =
     window.location.origin + "/backend/vendor/bootstrap/css/bootstrap.rtl.css";

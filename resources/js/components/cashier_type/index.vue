@@ -1,272 +1,267 @@
 <template>
     <div>
-        <div v-if="user.types" class="row">
+        <div v-if="user.types">
             <!-- Datatables -->
-            <div v-show="!loading" class="col-lg-12">
-                <div class="card my-2">
+            <div v-show="!loading">
+                <div class="card" dir="rtl">
                     <div
-                        class="card-header bg-gradient-info text-light d-flex flex-row align-items-center justify-content-between"
+                        class="card-header d-flex flex-row justify-content-between"
                     >
-                        <h6 class="m-0 font-weight-bold text-primary">
-                            كل المنتجات
-                        </h6>
-                        <div class="form-group m-0">
-                            <label for="checkbox">{{
-                                __("اختيار الكل")
-                            }}</label>
-                            <input class="form-control-sm"
-                                id="checkbox"
-                                type="checkbox"
-                                v-model="selectAll"
-                            />
-                        </div>
-                        <div v-if="selectAll">
-                            <!-- You are currently selecting all -->
-                            {{ __("تم اختيار ") }}
-                            <strong>{{ checked.length }}</strong>
-                            {{ __(" صنف.") }}
-                        </div>
+                        <h3 class="card-title">كل المنتجات</h3>
 
-
-                        <div v-if="checked.length > 0">
-                            <a
-                                class="btn btn-danger"
-                                href="#"
-                                onclick="confirm('Are you sure you wanna delete this Record?') || event.stopImmediatePropagation()"
-                                type="button"
-                                @click.prevent="deleteRecords"
-                            >
-                                {{ __("حذف المحدد") }}
-                            </a>
-                        </div>
-                        <i
-                            class="fas fa-file-excel text-success"
-                            style="cursor: pointer"
-                            @click="downloads('xlsx', 'types-table')"
-                        ></i>
-                        <div class="form-group m-0">
-                            <label for="per_page">عدد الصفوف</label>
-                            <select class="form-control-sm" id="per_page" v-model="per_page">
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="200">200</option>
-                                <option value="400">400</option>
-                                <option value="800">800</option>
-                                <option value="1600">1600</option>
-                            </select>
-                        </div>
-                        <router-link
-                            v-show="user.create_type"
-                            class="font-weight-bold text-primary"
-                            to="/create"
-                            >إضافة
-                        </router-link>
-
-                        <div class="form-group m-0">
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="filter"
-                                :placeholder="__('Search')"
-                                @keydown="$event.stopImmediatePropagation()"
-                            />
-                        </div>
-                    </div>
-                    <div class="w-100 dragscroll table-wrapper">
-                        <div id="pagewrap" class="row">
-                            <div id="body" class="col-sm-12">
-                                <datatable
-                                    class="types-table text-center"
-                                    id="types-table"
-                                    :filter="filter"
-                                    :columns="columns"
-                                    :perPage="per_page"
-                                    :data="types"
-                                >
-                                    <template
-                                        slot-scope="{
-                                            row,
-                                            columns,
-                                            pagination,
-                                        }"
-                                    >
-                                        <tr>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    :value="row.type_id"
-                                                    v-model="checked"
-                                                />
-                                            </td>
-                                            <td v-if="!isNewbill">
-                                                <button
-                                                    @click="printBarcode(row)"
-                                                >
-                                                    <i
-                                                        class="fa fa-barcode"
-                                                    ></i>
-                                                </button>
-                                                <router-link
-                                                    v-show="user.edit_type"
-                                                    :to="{
-                                                        name: 'edit',
-                                                        params: {
-                                                            id: row.type_id,
-                                                        },
-                                                    }"
-                                                    class="btn btn-sm btn-primary"
-                                                    ><i class="fa fa-edit"></i>
-                                                </router-link>
-                                                <a
-                                                    v-show="user.delete_type"
-                                                    class="btn btn-sm btn-danger"
-                                                    @click="
-                                                        deleteType(row.type_id)
-                                                    "
-                                                    ><i class="fa fa-trash"></i
-                                                ></a>
-                                            </td>
-                                            <td v-else>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-sm btn-primary"
-                                                    @click="addToCart(row)"
-                                                >
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td class="sorting_1">
-                                                {{ row.type_id }}
-                                            </td>
-                                            <td class="">
-                                                {{ row.type_barcode }}
-                                            </td>
-                                            <td class="" style="overflow: auto">
-                                                {{ row.type_name_ar }}
-                                            </td>
-                                            <td>{{ row.type_name_en }}</td>
-                                            <td class="">
-                                                <!-- Button trigger modal -->
-                                                <button
-                                                    v-show="
-                                                        row.type_icon !== '' ||
-                                                        row.type_icon != null
-                                                    "
-                                                    :data-target="
-                                                        '#exampleModalCenter-' +
-                                                        row.type_id
-                                                    "
-                                                    class="btn btn-sm btn-primary"
-                                                    data-toggle="modal"
-                                                    type="button"
-                                                >
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                                <div
-                                                    :id="
-                                                        'exampleModalCenter-' +
-                                                        row.type_id
-                                                    "
-                                                    aria-hidden="true"
-                                                    aria-labelledby="exampleModalCenterTitle"
-                                                    class="modal fade"
-                                                    role="dialog"
-                                                    tabindex="-1"
-                                                >
-                                                    <div
-                                                        class="modal-dialog modal-dialog-centered"
-                                                        role="document"
-                                                    >
-                                                        <div
-                                                            class="modal-content"
-                                                            style="width: 500px"
-                                                        >
-                                                            <div
-                                                                class="modal-body"
-                                                                style="
-                                                                    width: 500px;
-                                                                "
-                                                            >
-                                                                <img
-                                                                    :src="
-                                                                        row.type_icon
-                                                                    "
-                                                                    style="
-                                                                        width: 100%;
-                                                                        height: 100%;
-                                                                    "
-                                                                />
-                                                            </div>
-                                                            <div
-                                                                class="modal-footer py-1"
-                                                            >
-                                                                <button
-                                                                    class="btn-sm btn btn-secondary"
-                                                                    data-dismiss="modal"
-                                                                    type="button"
-                                                                >
-                                                                    إغلاق
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="">
-                                                {{ row.type_purchases_price }}
-                                            </td>
-                                            <td class="">
-                                                {{ row.type_sill_price }}
-                                            </td>
-                                            <td class="">
-                                                {{ row.minimum_sill_price }}
-                                            </td>
-
-                                            <td class="">
-                                                {{ row.type_discount_value }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    row.type_stock
-                                                        ? row.type_stock
-                                                              .mixins_type_stock
-                                                        : 0
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    row.type_stock
-                                                        ? row.type_stock
-                                                              .mixins_type_stock *
-                                                          row.type_sill_price
-                                                        : 0
-                                                }}
-                                            </td>
-                                            <td>
-                                                {{
-                                                    row.type_stock
-                                                        ? row.type_stock
-                                                              .mixins_type_stock *
-                                                          row.type_purchases_price
-                                                        : 0
-                                                }}
-                                            </td>
-                                            <td>{{ row.type_exp_date }}</td>
-                                        </tr>
-                                    </template>
-                                    <template name="no-result">
-                                        Nothing to see here
-                                    </template>
-                                </datatable>
-                                <datatable-pager
-                                    class="pagination justify-content-center"
-                                    v-model="page"
-                                    type="abbreviated"
-                                    :per-page="per_page"
-                                ></datatable-pager>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                                <input
+                                    type="text"
+                                    class="form-control-sm"
+                                    v-model="filter"
+                                    :placeholder="__('Search')"
+                                    @keydown="$event.stopImmediatePropagation()"
+                                />
                             </div>
                         </div>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                                <select
+                                    class="form-control-sm"
+                                    id="per_page"
+                                    v-model="per_page"
+                                >
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="400">400</option>
+                                    <option value="800">800</option>
+                                    <option value="1600">1600</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    v-model="selectAll"
+                                    id="flexCheckDefault"
+                                />
+                                <label
+                                    class="form-check-label pointer"
+                                    for="flexCheckDefault"
+                                >
+                                    {{ __("اختيار الكل") }}
+                                </label>
+                                <span class="mx-2" v-if="selectAll">
+                                    <!-- You are currently selecting all -->
+                                    {{ __("تم اختيار ") }}
+                                    <strong>{{ checked.length }}</strong>
+                                    {{ __(" صنف.") }}
+                                </span>
+                                <a
+                                    v-if="checked.length > 0"
+                                    class="btn btn-sm btn-danger card-link"
+                                    href="#"
+                                    onclick="confirm('Are you sure you wanna delete this Record?') || event.stopImmediatePropagation()"
+                                    type="button"
+                                    @click.prevent="deleteRecords"
+                                >
+                                    {{ __("حذف المحدد") }}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-tools">
+                            <i
+                                class="fas fa-file-excel text-success"
+                                style="cursor: pointer"
+                                @click="downloads('xlsx', 'types-table')"
+                            ></i>
+                        </div>
+
+                        <div class="card-link">
+                            <router-link
+                                v-show="user.create_type"
+                                class="font-weight-bold text-primary"
+                                to="/create"
+                                >إضافة
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <datatable
+                            class="types-table text-center"
+                            id="types-table"
+                            :filter="filter"
+                            :columns="columns"
+                            :perPage="per_page"
+                            :data="types"
+                        >
+                            <template slot-scope="{ row, columns, pagination }">
+                                <tr>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            :value="row.type_id"
+                                            v-model="checked"
+                                        />
+                                    </td>
+                                    <td v-if="!isNewbill">
+                                        <button @click="printBarcode(row)">
+                                            <i class="fa fa-barcode"></i>
+                                        </button>
+                                        <router-link
+                                            v-show="user.edit_type"
+                                            :to="{
+                                                name: 'edit',
+                                                params: {
+                                                    id: row.type_id,
+                                                },
+                                            }"
+                                            class="btn btn-sm btn-primary"
+                                            ><i class="fa fa-edit"></i>
+                                        </router-link>
+                                        <a
+                                            v-show="user.delete_type"
+                                            class="btn btn-sm btn-danger"
+                                            @click="deleteType(row.type_id)"
+                                            ><i class="fa fa-trash"></i
+                                        ></a>
+                                    </td>
+                                    <td v-else>
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-primary"
+                                            @click="addToCart(row)"
+                                        >
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </td>
+                                    <td class="sorting_1">
+                                        {{ row.type_id }}
+                                    </td>
+                                    <td class="">
+                                        {{ row.type_barcode }}
+                                    </td>
+                                    <td class="" style="overflow: auto">
+                                        {{ row.type_name_ar }}
+                                    </td>
+                                    <td>{{ row.type_name_en }}</td>
+                                    <td class="">
+                                        <!-- Button trigger modal -->
+                                        <button
+                                            v-show="
+                                                row.type_icon !== '' ||
+                                                row.type_icon != null
+                                            "
+                                            :data-target="
+                                                '#exampleModalCenter-' +
+                                                row.type_id
+                                            "
+                                            class="btn btn-sm btn-primary"
+                                            data-toggle="modal"
+                                            type="button"
+                                        >
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <div
+                                            :id="
+                                                'exampleModalCenter-' +
+                                                row.type_id
+                                            "
+                                            aria-hidden="true"
+                                            aria-labelledby="exampleModalCenterTitle"
+                                            class="modal fade"
+                                            role="dialog"
+                                            tabindex="-1"
+                                        >
+                                            <div
+                                                class="modal-dialog modal-dialog-centered"
+                                                role="document"
+                                            >
+                                                <div
+                                                    class="modal-content"
+                                                    style="width: 500px"
+                                                >
+                                                    <div
+                                                        class="modal-body"
+                                                        style="width: 500px"
+                                                    >
+                                                        <img
+                                                            :src="row.type_icon"
+                                                            style="
+                                                                width: 100%;
+                                                                height: 100%;
+                                                            "
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        class="modal-footer py-1"
+                                                    >
+                                                        <button
+                                                            class="btn-sm btn btn-secondary"
+                                                            data-dismiss="modal"
+                                                            type="button"
+                                                        >
+                                                            إغلاق
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="">
+                                        {{ row.type_purchases_price }}
+                                    </td>
+                                    <td class="">
+                                        {{ row.type_sill_price }}
+                                    </td>
+                                    <td class="">
+                                        {{ row.minimum_sill_price }}
+                                    </td>
+
+                                    <td class="">
+                                        {{ row.type_discount_value }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            row.type_stock
+                                                ? row.type_stock
+                                                      .mixins_type_stock
+                                                : 0
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            row.type_stock
+                                                ? row.type_stock
+                                                      .mixins_type_stock *
+                                                  row.type_sill_price
+                                                : 0
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            row.type_stock
+                                                ? row.type_stock
+                                                      .mixins_type_stock *
+                                                  row.type_purchases_price
+                                                : 0
+                                        }}
+                                    </td>
+                                    <td>{{ row.type_exp_date }}</td>
+                                </tr>
+                            </template>
+                            <template name="no-result">
+                                Nothing to see here
+                            </template>
+                        </datatable>
+                    </div>
+                    <div class="card-footer my-0 py-0">
+                        <datatable-pager
+                            class="pagination justify-content-center"
+                            v-model="page"
+                            type="short"
+                            :per-page="per_page"
+                        ></datatable-pager>
                     </div>
                 </div>
                 <div
@@ -348,7 +343,7 @@ export default {
             typeName: "",
             barcode: {},
             columns: [
-                { label: "تحديد", field: "type_id" },
+                { label: "تحديد", },
                 { label: "اعدادات", field: "type_id" },
                 { label: "كود", field: "type_id" },
                 { label: "باركود الصنف", field: "type_barcode" },
@@ -488,5 +483,16 @@ export default {
     border: 1px solid #ddd;
     padding: 5px 15px;
     margin: 0;
+}
+table thead tr {
+    background-color: #009879 !important;
+    color: #ffffff !important;
+    text-align: center;
+    font-weight: bolder;
+    padding: 10px !important;
+}
+
+.card-header {
+    margin-bottom: 10px;
 }
 </style>
