@@ -5,7 +5,7 @@
             <div v-show="!loading">
                 <div class="card" dir="rtl">
                     <div
-                        class="card-header d-flex flex-row justify-content-between"
+                        class="card-header codies-table d-flex flex-row justify-content-between"
                     >
                         <h3 class="card-title">كل المنتجات</h3>
 
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm" v-if="user.delete_type">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
@@ -98,7 +98,7 @@
                             <template slot-scope="{ row, columns, pagination }">
                                 <tr>
                                     <td>
-                                        <input
+                                        <input v-show="user.delete_type"
                                             type="checkbox"
                                             :value="row.type_id"
                                             v-model="checked"
@@ -119,12 +119,7 @@
                                             class="btn btn-sm btn-primary"
                                             ><i class="fa fa-edit"></i>
                                         </router-link>
-                                        <a
-                                            v-show="user.delete_type"
-                                            class="btn btn-sm btn-danger"
-                                            @click="deleteType(row.type_id)"
-                                            ><i class="fa fa-trash"></i
-                                        ></a>
+
                                     </td>
                                     <td v-else>
                                         <button
@@ -343,8 +338,8 @@ export default {
             typeName: "",
             barcode: {},
             columns: [
-                { label: "تحديد", },
-                { label: "اعدادات", field: "type_id" },
+                { label: "تحديد" },
+                { label: "اعدادات" },
                 { label: "كود", field: "type_id" },
                 { label: "باركود الصنف", field: "type_barcode" },
                 { label: "اسم الصنف عربي", field: "type_name_ar" },
@@ -396,10 +391,17 @@ export default {
             axios
                 .delete("/api/types/massDestroy/" + this.checked)
                 .then((response) => {
-                    if (response.status == 204) {
-                        this.checked = [];
-                        this.allTypes();
-                    }
+                    this.checked.filter((id) => {
+                        this.types = this.types.filter((type) => {
+                            return type.type_id !== id;
+                        });
+                    });
+
+                    Notification.successMsg("تم الحذف بنجاح");
+                    this.checked = [];
+                })
+                .catch(() => {
+                    Notification.error();
                 });
         },
         isChecked(type_id) {
@@ -445,27 +447,7 @@ export default {
                 .catch((error) => console.log(error));
         },
 
-        deleteType(id) {
-            if (confirm("هل تريد الحذف؟لايمكن الاستعاده مره اخرى.")) {
-                axios
-                    .delete("/api/types/" + id)
-                    .then((data) => {
-                        if (data.data) {
-                            this.types = this.types.filter((type) => {
-                                return type.type_id !== id;
-                            });
-                            Notification.successMsg("تم الحذف بنجاح");
-                        } else {
-                            Notification.errorMsg(
-                                "لايمكن حذف صنف مرتبط بفواتير أو عمليات"
-                            );
-                        }
-                    })
-                    .catch(() => {
-                        Notification.error();
-                    });
-            }
-        },
+
     },
 };
 </script>
@@ -484,15 +466,26 @@ export default {
     padding: 5px 15px;
     margin: 0;
 }
-table thead tr {
+
+table thead tr,
+.card-header.codies-table {
     background-color: #009879 !important;
     color: #ffffff !important;
     text-align: center;
     font-weight: bolder;
-    padding: 10px !important;
 }
 
-.card-header {
+.card-header.codies-table {
     margin-bottom: 10px;
+}
+.card-header.codies-table *,
+.codies-table select,
+.codies-table option {
+    color: #ffffff !important;
+}
+.card-header.codies-table select,
+.card-header.codies-table option {
+    color: #009879 !important;
+    font-weight: bolder;
 }
 </style>
