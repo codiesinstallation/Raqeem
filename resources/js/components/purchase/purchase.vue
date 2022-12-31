@@ -715,13 +715,13 @@ export default {
                 .then(({ data }) => (this.supplier = data))
                 .catch((error) => console.log(error));
         },
-        findType() {
-            axios
+        async findType() {
+            await axios
                 .get("/api/findTypeByBarcode/" + this.barcode)
-                .then(({ data }) => {
+                .then(async ({ data }) => {
                     this.type = data;
                     if (data.type_id != null) {
-                        this.addToCart(data);
+                        await this.addToCart(data);
                         this.barcode = "";
                     } else {
                         Notification.customMsg(
@@ -733,13 +733,13 @@ export default {
                 })
                 .catch((error) => console.log(error));
         },
-        findTypeByCodeOrId() {
-            axios
+        async findTypeByCodeOrId() {
+            await axios
                 .get("/api/action/find/" + this.id)
-                .then(({ data }) => {
+                .then(async ({ data }) => {
                     this.type = data;
                     if (data.type_id != null) {
-                        this.addToCart(data);
+                        await this.addToCart(data);
                         this.id = "";
                     } else {
                         Notification.customMsg(
@@ -776,9 +776,10 @@ export default {
         async addToCart(product) {
             product.type_count = 1;
             let cloneProduct = await JSON.parse(JSON.stringify(product));
+
             this.cart.push(cloneProduct);
 
-            await this.calcTotalTypeCost(product);
+            await this.calcTotalTypeCost(cloneProduct);
         },
         async removeFromCart(product, index) {
             product.type_count = 1;
@@ -796,26 +797,11 @@ export default {
             await this.calcTotalTypeCost(product);
         },
 
-        async calcUnitPrice(product) {
+        async calcTotalTypeCost(product) {
             product.type_price =
-                product.sell_unit.price ??
-                product.type_purchases_price / product.sell_unit.no_of_unit ??
-                product.type_purchases_price;
-
+                product.type_purchases_price / product.sell_unit.no_of_unit;
             product.calc_count =
                 product.type_count / product.sell_unit.no_of_unit;
-
-            if (
-                product.type_price === "NaN" ||
-                product.type_price <= 0 ||
-                !product.type_price
-            ) {
-                product.type_price = product.type_purchases_price;
-            }
-        },
-        async calcTotalTypeCost(product) {
-            await this.calcUnitPrice(product);
-
             if (product.type_price > 0) {
                 product.total_purchase_price =
                     product.type_count * parseFloat(product.type_price);
@@ -857,7 +843,7 @@ export default {
             //Form number
             this.form.sum = this.format(this.form.sum);
             this.form.total = this.format(this.form.total);
-            this.form.paid = this.form.total;
+            this.form.paid = this.format(this.form.total);
         },
         calcRemain() {
             this.form.remain = this.form.total - this.form.paid;
@@ -916,6 +902,7 @@ export default {
         clearAll() {
             this.cart = [];
             this.form.cart = [];
+            this.form.bill_serial="";
             this.supplier = {};
             this.search = "";
             this.calcSum();

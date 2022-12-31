@@ -96,7 +96,7 @@
                     </h5>
                 </a>
             </div>
-            <div class="col-2 d-none">
+            <div class="col-2 ">
                 <router-link
                     class="card text-center p-1 w-100"
                     to="/PurachasesReport"

@@ -63,6 +63,7 @@ let report = require("./components/reports/report.vue").default;
 let customerReport = require("./components/reports/customer.vue").default;
 let searchReport = require("./components/reports/search.vue").default;
 let shiftReport = require("./components/reports/shift.vue").default;
+let daily = require("./components/reports/daily.vue").default;
 
 let requests = require("./components/request/index.vue").default;
 let cash = require("./components/cash/index.vue").default;
@@ -280,6 +281,7 @@ export const routes = [{
         component: customerReport,
         name: "customers-report",
     },
+    { path: "/daily", component: daily, name: "daily" },
 
     { path: "/search", component: searchReport, name: "search-report" },
     { path: "/shiftReport", component: shiftReport, name: "shift-report" },
