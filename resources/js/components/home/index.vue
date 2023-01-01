@@ -502,7 +502,9 @@
                                     />
                                 </td>
                                 <td style="width: 10%">
-                                    <a
+                                    <i v-if="disable" class="btn btn-outline-success font-weight-bold text-dark fa fa-spinner"></i>
+                                    <a v-else
+
                                         title="CTRL+S"
                                         id="save"
                                         :disabled="cart.length <= 0 || disable"
