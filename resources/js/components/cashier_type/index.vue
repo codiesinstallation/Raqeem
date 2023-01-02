@@ -13,8 +13,9 @@
                             <div class="input-group input-group-sm">
                                 <input
                                     type="text"
-                                    class="form-control-sm"
+                                    class="form-control-sm text-success"
                                     v-model="filter"
+                                    style="color:green!important"
                                     :placeholder="__('Search')"
                                     @keydown="$event.stopImmediatePropagation()"
                                 />
